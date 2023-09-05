@@ -1,15 +1,8 @@
 using System;
-using Core.GameWorld.Entities.Bullet;
 using Core.GameWorld.Entities.Projectile;
 
 namespace Core.GameWorld.ShootController {
-	public class ChargableShootController
-//		<TProjectileController, TProjectileFactoryArgs>
-		: ShootController
-//			<TProjectileController, TProjectileFactoryArgs>
-//		where TProjectileController : class, IProjectileController
-//		where TProjectileFactoryArgs : IProjectileFactoryArgs
-	{
+	public class ChargableShootController : ShootController {
 		protected override bool IsReallySpawnActive => base.IsReallySpawnActive && currentCharges > 0;
 
 		private readonly int maxCharges;
@@ -21,10 +14,7 @@ namespace Core.GameWorld.ShootController {
 
 		public ChargableShootController(
 			IWorldObjectController owner,
-			IProjectileFactory
-				//<TProjectileController, TProjectileFactoryArgs>
-				projectileFactory,
-//			Func<TProjectileFactoryArgs> getArgs,
+			IProjectileFactory projectileFactory,
 			Func<IProjectileFactoryArgs> getArgs,
 			float fireRate,
 			bool isUseVirtualBullets,
@@ -38,7 +28,6 @@ namespace Core.GameWorld.ShootController {
 			OnShoot += ShootHandler;
 		}
 
-//		private void ShootHandler(object sender, TProjectileController[] projectileController){
 		private void ShootHandler(object sender, IProjectileController[] projectileController){
 			currentCharges--;
 		}

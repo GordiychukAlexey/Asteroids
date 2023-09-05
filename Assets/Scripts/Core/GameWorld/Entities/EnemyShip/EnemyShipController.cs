@@ -6,13 +6,11 @@ namespace Core.GameWorld.Entities.EnemyShip {
 	public class EnemyShipController : BaseWorldObjectController<IEnemyShipView>, IEnemyShipController {
 		public event Action<EnemyShipController> OnDispose;
 
-//		private IEnemyShipView view;
-		private EnemyShipConfig shipConfig;
+		private readonly EnemyShipConfig shipConfig;
 
 		private readonly ChasingMovementController movementController;
 
 		public EnemyShipController(IEnemyShipView view, EnemyShipConfig shipConfig) : base(view){
-//			this.view = view;
 			this.shipConfig = shipConfig;
 
 			movementController = new ChasingMovementController(
@@ -33,10 +31,6 @@ namespace Core.GameWorld.Entities.EnemyShip {
 		public override void Update(float dt){
 			movementController.Update(dt);
 
-//			if ((destroyTime-=dt)<=0.0f){
-//				Dispose();
-//			}
-
 			base.Update(dt);
 		}
 
@@ -47,7 +41,5 @@ namespace Core.GameWorld.Entities.EnemyShip {
 
 			base.Dispose();
 		}
-
-//		private float destroyTime = 3.0f;
 	}
 }

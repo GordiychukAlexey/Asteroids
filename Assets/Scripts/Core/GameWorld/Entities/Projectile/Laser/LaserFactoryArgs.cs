@@ -1,9 +1,7 @@
-using Core.GameWorld.Entities.PlayerShip;
-using Core.Tools.InfinityWorld;
 using Core.Tools.WorldObjectFactory;
 using UnityEngine;
 
-namespace Core.GameWorld.Entities.Bullet.PlayerBullet {
+namespace Core.GameWorld.Entities.Projectile.Laser {
 	public class LaserFactoryArgs : WorldObjectFactoryArgs, ILaserFactoryArgs {
 		public IWorldObjectController Owner{ get; }
 

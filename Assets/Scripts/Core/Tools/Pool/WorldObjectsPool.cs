@@ -4,14 +4,8 @@ using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
 namespace Core.Tools.Pool {
-//	public interface IObjectPool {
-//		public void Release(Object o);
-//	}
-
-	public abstract class WorldObjectsPool<TComponent //, TPooledItem
-	> : IObjectPool<TComponent> where TComponent : Component, IWorldObjectPoolable<TComponent>
-//	where TPooledItem:BasePooledItem<TComponent>
-	{
+	public abstract class WorldObjectsPool<TComponent> : IObjectPool<TComponent>
+		where TComponent : Component, IWorldObjectPoolable<TComponent> {
 		public event Action<TComponent> OnCreatePooledItem;
 		public event Action<TComponent> OnTakeFromPool;
 		public event Action<TComponent> OnReturnedToPool;
@@ -83,20 +77,10 @@ namespace Core.Tools.Pool {
 				instance.SetParent(parentTransform);
 			}
 
-//			TComponent instance = CreatePooledItemImpl();
-//			instance.OnSetPool(Pool);
-
-
-//			var pooledItem = instance.gameObject.AddComponent<TPooledItem>();
-//			pooledItem.Initialize(instance, Pool);
-//			pooledItem.OnSetPool(Pool);
-
-
 			OnCreatePooledItem?.Invoke(instance);
 
 			return instance;
 		}
-//		protected abstract TComponent OnCreatePooledItem();
 
 		protected virtual void TakeFromPoolHandler(TComponent item){
 			item.OnSpawned(Pool);

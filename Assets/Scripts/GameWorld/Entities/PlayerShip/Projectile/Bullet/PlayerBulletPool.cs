@@ -3,7 +3,7 @@ using GameWorld.Entities.PlayerShip.Projectile.Bullet;
 using UnityEngine;
 
 namespace GameWorld.Entities.PlayerShip {
-	public class PlayerBulletPool  : WorldObjectsPool<Bullet> {
+	public class PlayerBulletPool : WorldObjectsPool<Bullet> {
 		public PlayerBulletPool(
 			Bullet prefab,
 			Transform parentTransform,
@@ -14,7 +14,6 @@ namespace GameWorld.Entities.PlayerShip {
 			parentTransform,
 			poolType,
 			maxPoolSize,
-			collectionChecks){
-		}
+			collectionChecks){ }
 	}
 }

@@ -10,11 +10,6 @@ namespace Core.Tools.WorldObjectFactory {
 		where TFactoryArgs : IWorldObjectFactoryArgs {
 		public event Action<TController> OnCreateEvent;
 
-//		event Action<IWorldObjectController> IWorldObjectFactory.OnCreateEvent{
-//			add => OnCreateEvent+=value;
-//			remove => OnCreateEvent-=value;
-//		}
-
 		private readonly Func<TView> getViewInstance;
 
 		protected WorldObjectFactory(TView view) : this(() => Object.Instantiate(view)){ }
@@ -33,20 +28,6 @@ namespace Core.Tools.WorldObjectFactory {
 			OnCreateEvent?.Invoke(controller);
 
 			return controller;
-		}
-
-//		IWorldObjectController IWorldObjectFactory.Create(IWorldObjectFactoryArgs args){
-//			if (!IsCompatibleIFactoryArgs(args)){
-//				throw new ArgumentException();
-//			}
-//
-//			return Create((TFactoryArgs) args);
-//		}
-
-		private static bool IsCompatibleIFactoryArgs(IWorldObjectFactoryArgs factoryArgs){
-			if (factoryArgs is TFactoryArgs) return true;
-
-			return factoryArgs == null;
 		}
 
 		private TView CreateViewInstance(TFactoryArgs args){

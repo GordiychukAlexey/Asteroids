@@ -1,5 +1,5 @@
+using Core.GameSycle;
+
 namespace Core.GameWorld.MovementController {
-	public interface IMovementController {
-		public void Update(float dt);
-	}
+	public interface IMovementController : IUpdatable { }
 }

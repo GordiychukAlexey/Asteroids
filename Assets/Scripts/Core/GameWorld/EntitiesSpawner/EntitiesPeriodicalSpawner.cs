@@ -1,3 +1,4 @@
+using Core.GameWorld.SpawnLocation;
 using Core.Tools.WorldObjectFactory;
 using UnityEngine;
 

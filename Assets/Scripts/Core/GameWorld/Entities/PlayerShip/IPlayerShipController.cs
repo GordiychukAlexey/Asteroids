@@ -4,6 +4,5 @@ namespace Core.GameWorld.Entities.PlayerShip {
 		public void SetAngularSpeedThrottle(float value);
 		public bool Gun1IsSpawnActive{ get; set; }
 		public bool Gun2IsSpawnActive{ get; set; }
-		void Update(float dt);
 	}
 }

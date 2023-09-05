@@ -8,6 +8,5 @@ namespace Core.GameWorld {
 		public Vector2 Position{ get; set; }
 
 		public Vector2 Forward{ get; set; }
-//		public void Destroy();
 	}
 }

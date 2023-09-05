@@ -3,29 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Core.Tools.ServiceLocator {
-//	public static class ServiceLocator {
-//		private static readonly HashSet<object> _registeredObjects;
-//
-//		static ServiceLocator(){
-//			_registeredObjects = new HashSet<object>();
-//		}
-//
-//		public static void Register<T>(T obj) where T : class{
-//			_registeredObjects.Add(obj);
-//		}
-//
-//		public static void Unregister<T>(T obj) where T : class{
-//			_registeredObjects.Remove(obj);
-//		}
-//
-//		public static T Resolve<T>() where T : class{
-//			var obj = _registeredObjects.SingleOrDefault(x => x is T);
-//			if (obj != null) return obj as T;
-//
-//			return null;
-//		}
-//	}
-
 	public static class ServiceLocator {
 		private static readonly HashSet<ServiceLocatorItem> _registeredObjects;
 
@@ -35,13 +12,11 @@ namespace Core.Tools.ServiceLocator {
 
 		public static ServiceLocatorRegisterCommand<TObject> Bind<TObject>(TObject obj) where TObject : class{
 			return new ServiceLocatorRegisterCommand<TObject>(new ServiceLocatorItem(obj));
-//			_registeredObjects.Add(new ServiceLocatorItem(obj));
 		}
 
 		public static void Bind<TObject>(ServiceLocatorRegisterCommand<TObject> command){
 			_registeredObjects.Add(command.Item);
 		}
-
 
 		public static T Resolve<T>(string tag = null) where T : class{
 			var obj = _registeredObjects.SingleOrDefault(x => x.objectInstance is T && x.tag == tag)?.objectInstance;

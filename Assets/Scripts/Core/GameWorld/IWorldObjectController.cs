@@ -14,7 +14,5 @@ namespace Core.GameWorld {
 		public bool IsVirtual{ get; }
 
 		public bool IsWasInWorldBounds{ get; }
-
-//		public Vector2[] GetVirtualPositions();
 	}
 }

@@ -1,4 +1,3 @@
-using Core.GameWorld.Entities.Bullet;
 using Core.GameWorld.MovementController;
 using Core.Tools.InfinityWorld;
 using UnityEngine;

@@ -4,10 +4,7 @@ using UnityEngine;
 namespace Core.Tools.InfinityWorld {
 	public class InfinityWorldPortal {
 		private readonly IWorldObjectController worldObjectController;
-
-//		private readonly InfinityWorldPositionAdapter infinityWorldPositionAdapter;
 		private readonly InfinityWorld infinityWorld;
-
 		private readonly Bounds worldBounds;
 
 		public bool IsWasInWorldBounds{ get; private set; } = false; //for spawn outside bounds
@@ -17,7 +14,6 @@ namespace Core.Tools.InfinityWorld {
 
 			worldBounds = ServiceLocator.ServiceLocator.Resolve<WorldBoundsProvider>().Bounds;
 
-//			infinityWorldPositionAdapter = ServiceLocator.ServiceLocator.Resolve<InfinityWorldPositionAdapter>();
 			infinityWorld = ServiceLocator.ServiceLocator.Resolve<InfinityWorld>();
 		}
 

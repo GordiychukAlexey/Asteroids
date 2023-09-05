@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GameWorld {
 	public abstract class BaseWorldObjectView : MonoBehaviour, IWorldObjectView {
 		public event EventHandler<Collider2D> OnTriggerEnter;
-		
+
 		public Vector2 Position{
 			get => transform.position;
 			set => transform.position = value;

@@ -17,7 +17,7 @@ namespace GameWorld.Entities.PlayerShip {
 				Vector2 position,
 				Vector2 forward,
 				PlayerShipConfig config
-				) : base(position, forward){
+			) : base(position, forward){
 				Config = config;
 			}
 		}

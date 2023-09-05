@@ -4,13 +4,12 @@ using UnityEngine;
 
 namespace Core.GameWorld.SpawnLocation {
 	public class WorldBoundsSpawnLocation : ISpawnLocation {
-		private readonly Bounds spawnBounds;
 		private readonly Vector2[] spawnBoundsVertexes;
 
 		public WorldBoundsSpawnLocation(float sideExpand){
 			Bounds worldBounds = ServiceLocator.Resolve<WorldBoundsProvider>().Bounds;
 
-			spawnBounds = new Bounds(worldBounds.center, worldBounds.size + Vector3.one * 2 * sideExpand);
+			var spawnBounds = new Bounds(worldBounds.center, worldBounds.size + Vector3.one * 2 * sideExpand);
 
 			spawnBoundsVertexes = new[]{
 				(Vector2) spawnBounds.min,

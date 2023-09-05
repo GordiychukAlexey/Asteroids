@@ -3,7 +3,7 @@ using GameWorld.Entities.PlayerShip.Projectile.Laser;
 using UnityEngine;
 
 namespace GameWorld.Entities.PlayerShip {
-	public class LaserPool  : WorldObjectsPool<Laser> {
+	public class LaserPool : WorldObjectsPool<Laser> {
 		public LaserPool(
 			Laser prefab,
 			Transform parentTransform,
@@ -14,7 +14,6 @@ namespace GameWorld.Entities.PlayerShip {
 			parentTransform,
 			poolType,
 			maxPoolSize,
-			collectionChecks){
-		}
+			collectionChecks){ }
 	}
 }

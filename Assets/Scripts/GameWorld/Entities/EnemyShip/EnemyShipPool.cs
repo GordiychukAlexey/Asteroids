@@ -13,7 +13,6 @@ namespace GameWorld.Entities.EnemyShip {
 			parentTransform,
 			poolType,
 			maxPoolSize,
-			collectionChecks){
-		}
+			collectionChecks){ }
 	}
 }

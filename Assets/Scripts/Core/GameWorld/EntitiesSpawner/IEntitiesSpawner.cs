@@ -1,7 +1,6 @@
 using System;
+using Core.GameSycle;
 
 namespace Core.GameWorld.EntitiesSpawner {
-	public interface IEntitiesSpawner : IDisposable {
-		public void Update(float dt);
-	}
+	public interface IEntitiesSpawner : IUpdatable, IDisposable { }
 }

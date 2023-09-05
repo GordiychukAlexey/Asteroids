@@ -1,9 +1,8 @@
-using Core.GameWorld.Entities.Projectile;
 using Core.Tools.WorldObjectFactory;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Core.GameWorld.Entities.Bullet {
+namespace Core.GameWorld.Entities.Projectile {
 	public abstract class BaseProjectileFactory<TController, TView, TArgs> :
 		WorldObjectFactory<IProjectileController, TView, IProjectileFactoryArgs>, IProjectileFactory
 		where TController : class, IProjectileController

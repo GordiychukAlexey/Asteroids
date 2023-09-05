@@ -16,7 +16,7 @@ namespace GameWorld.Entities.Asteroid {
 
 		public override void Dispose(){
 			base.Dispose();
-			
+
 			pool.Release(this);
 		}
 	}

@@ -1,7 +1,7 @@
 using Core.Tools.WorldObjectFactory;
 using UnityEngine;
 
-namespace Core.GameWorld.Entities.Bullet.PlayerBullet {
+namespace Core.GameWorld.Entities.Projectile.Bullet {
 	public class BulletFactoryArgs : WorldObjectFactoryArgs, IBulletFactoryArgs {
 		public Vector2 OwnerMovingSpeed{ get; }
 		public float OwnerAngularSpeed{ get; }

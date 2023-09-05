@@ -11,8 +11,6 @@ namespace Core.GameWorld {
 
 		private readonly InfinityWorldPortal infinityWorldPortal;
 
-		public bool IsWasInWorldBounds => infinityWorldPortal.IsWasInWorldBounds;
-
 		protected BaseWorldObjectController(TView view, InfinityWorldSide worldSide = InfinityWorldSide.Center){
 			this.view = view;
 			WorldSide = worldSide;
@@ -34,9 +32,7 @@ namespace Core.GameWorld {
 
 		public bool IsVirtual => WorldSide != InfinityWorldSide.Center;
 
-		//		public Vector2[] GetVirtualPositions(){
-//			throw new NotImplementedException();
-//		}
+		public bool IsWasInWorldBounds => infinityWorldPortal.IsWasInWorldBounds;
 
 		public virtual void Update(float dt){
 			infinityWorldPortal.Update(dt);

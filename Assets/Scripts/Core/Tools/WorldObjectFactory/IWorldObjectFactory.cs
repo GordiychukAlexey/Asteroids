@@ -2,13 +2,7 @@ using System;
 using Core.GameWorld;
 
 namespace Core.Tools.WorldObjectFactory {
-//	public interface IWorldObjectFactory 
-//	{
-//		event Action<IWorldObjectController> OnCreateEvent;
-//		IWorldObjectController Create(IWorldObjectFactoryArgs args);
-//	}
-
-	public interface IWorldObjectFactory<TController, TArgs> //:IWorldObjectFactory
+	public interface IWorldObjectFactory<TController, TArgs>
 		where TController : class, IWorldObjectController
 		where TArgs : IWorldObjectFactoryArgs {
 		public event Action<TController> OnCreateEvent;

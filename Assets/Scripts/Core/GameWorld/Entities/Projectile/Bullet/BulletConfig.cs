@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Core.GameWorld.Entities.Bullet {
+namespace Core.GameWorld.Entities.Projectile.Bullet {
 	[Serializable]
 	public class BulletConfig {
 		[SerializeField] private float speed = 12.0f;

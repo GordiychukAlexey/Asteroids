@@ -1,4 +1,5 @@
 using Core.GameWorld.Entities.Asteroid;
+using Core.GameWorld.SpawnLocation;
 using Core.Tools.InfinityWorld;
 using Core.Tools.ServiceLocator;
 using UnityEngine;

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.GameWorld;
@@ -6,23 +5,6 @@ using UnityEngine;
 
 namespace Core.Tools.InfinityWorld {
 	public class InfinityWorld {
-		public static readonly InfinityWorldSide[] WorldSides = {
-			InfinityWorldSide.Center,
-			InfinityWorldSide.Left,
-			InfinityWorldSide.Top,
-			InfinityWorldSide.Right,
-			InfinityWorldSide.Down,
-		};
-
-		public static readonly InfinityWorldSide[] VirtualWorldSides = {
-			InfinityWorldSide.Left,
-			InfinityWorldSide.Top,
-			InfinityWorldSide.Right,
-			InfinityWorldSide.Down,
-		};
-
-//		public Bounds WorldCenterBounds => bounds[InfinityWorldSide.Center];
-
 		private readonly Dictionary<InfinityWorldSide, Vector2> positionShift;
 		private readonly Dictionary<InfinityWorldSide, Bounds> bounds;
 
@@ -42,7 +24,6 @@ namespace Core.Tools.InfinityWorld {
 					worldBounds.size));
 		}
 
-//		public Vector2 AdaptPosition(Vector2 position, InfinityWorldSide infinityWorldSide = InfinityWorldSide.Center){
 		public void AdaptPosition(IWorldObjectController worldObjectController){
 			var boundsTmp = bounds[worldObjectController.WorldSide];
 			var x = new Vector2(
@@ -53,11 +34,6 @@ namespace Core.Tools.InfinityWorld {
 				((worldObjectController.Position.y - boundsTmp.min.y) % boundsTmp.size.y
 			   + boundsTmp.size.y) % boundsTmp.size.y);
 
-//			worldObjectController.Position = worldObjectController.IsVirtual
-//				? x + GetPositionShift(worldObjectController.WorldSide)
-//				: x;
-
-//			Debug.Log($"{worldObjectController.Position} {worldObjectController.WorldSide} {x}");
 			worldObjectController.Position = x;
 		}
 
@@ -66,5 +42,20 @@ namespace Core.Tools.InfinityWorld {
 		public Vector2[] ToVirtualPositions(Vector2 position) => VirtualWorldSides.Select(side => ToSidePosition(position, side)).ToArray();
 
 		public Vector2 GetPositionShift(InfinityWorldSide side) => positionShift[side];
+
+		public static readonly InfinityWorldSide[] WorldSides = {
+			InfinityWorldSide.Center,
+			InfinityWorldSide.Left,
+			InfinityWorldSide.Top,
+			InfinityWorldSide.Right,
+			InfinityWorldSide.Down,
+		};
+
+		public static readonly InfinityWorldSide[] VirtualWorldSides = {
+			InfinityWorldSide.Left,
+			InfinityWorldSide.Top,
+			InfinityWorldSide.Right,
+			InfinityWorldSide.Down,
+		};
 	}
 }

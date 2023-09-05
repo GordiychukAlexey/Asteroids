@@ -1,7 +1,3 @@
-using Core.GameWorld.Entities.Projectile;
-
-namespace Core.GameWorld.Entities.Bullet {
-	public interface ILaserFactoryArgs : IProjectileFactoryArgs {
-		public IWorldObjectController Owner{ get; }
-	}
+namespace Core.GameWorld.Entities.Projectile.Laser {
+	public interface ILaserFactoryArgs : IProjectileFactoryArgs { }
 }
