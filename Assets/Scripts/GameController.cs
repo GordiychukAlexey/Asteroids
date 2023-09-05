@@ -19,9 +19,10 @@ using GameWorld.Entities.PlayerShip;
 using GameWorld.Entities.PlayerShip.Projectile.Bullet;
 using GameWorld.Entities.PlayerShip.Projectile.Laser;
 using Input;
+using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using PlayerInput = Core.Input.PlayerInput;
-using Random = UnityEngine.Random;
 
 public class GameController : IDisposable {
 	private readonly Config config;
@@ -38,6 +39,9 @@ public class GameController : IDisposable {
 	private readonly LaserFactory laserFactory;
 
 	private readonly IEntitiesSpawner[] spawners;
+
+	private readonly Scorer scorer;
+	private readonly UIController uiController;
 
 	public GameController(Config config){
 		this.config = config;
@@ -157,9 +161,17 @@ public class GameController : IDisposable {
 				config.BigAsteroidConfig.MovementMaxSpeed * 2.0f,
 				200.0f * 2.0f),
 		};
+
+		scorer = new Scorer();
+
+		uiController = new UIController(config.UIView);
+		
+		uiController.onRestartPressed+=Restart;
 	}
 
-	public void Update(float dt){
+	private void Restart() => SceneManager.LoadScene(0);
+
+	public void UpdateGameplay(float dt){
 		inputController.Update();
 
 		playerShipInputController.Update(dt);
@@ -176,14 +188,29 @@ public class GameController : IDisposable {
 		}
 	}
 
+	public void UpdateUI(){
+		uiController.SetStats(
+			new GameplayStats(
+				playerShipController.Position,
+				Vector2.Angle(Vector2.right, playerShipController.Forward),
+				playerShipController.Speed.magnitude,
+				playerShipController.LaserCharges,
+				playerShipController.LaserChargeTimeLeft,
+				scorer.CurrentScore
+			));
+	}
+
 	public void Dispose(){
 		inputController.Dispose();
 
 		worldObjectsContainer.Dispose();
+		
+		uiController.onRestartPressed-=Restart;
 	}
 
 	[Serializable]
 	public class Config {
+		[SerializeField] private UIView uiView;
 		[SerializeField] private PlayerShip playerShip;
 		[SerializeField] private EnemyShip enemyShip;
 		[SerializeField] private Transform enemyShipsPoolParent;
@@ -201,6 +228,7 @@ public class GameController : IDisposable {
 		[SerializeField] private AsteroidConfig bigAsteroidConfig;
 		[SerializeField] private AsteroidConfig smallAsteroidConfig;
 
+		public UIView UIView => uiView;
 		public PlayerShip PlayerShip => playerShip;
 		public EnemyShip EnemyShip => enemyShip;
 		public Transform EnemyShipsPoolParent => enemyShipsPoolParent;

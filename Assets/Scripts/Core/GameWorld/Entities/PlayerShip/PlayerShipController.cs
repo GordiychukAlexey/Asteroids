@@ -3,6 +3,7 @@ using Core.GameWorld.Entities.Projectile.Laser;
 using Core.GameWorld.MovementController;
 using Core.GameWorld.ShootController;
 using Core.Tools.ServiceLocator;
+using UnityEngine;
 
 namespace Core.GameWorld.Entities.PlayerShip {
 	public class PlayerShipController : BaseWorldObjectController<IPlayerShipView>, IPlayerShipController {
@@ -10,11 +11,16 @@ namespace Core.GameWorld.Entities.PlayerShip {
 
 		private readonly PhysicMovementController movementController;
 
-		private readonly IShootController gun1ShootController;
-		private readonly IShootController gun2ShootController;
+		private readonly ShootController.ShootController gun1ShootController;
+		private readonly ChargableShootController gun2ShootController;
 
 		private readonly PlayerGunConfig gun1Config;
 		private readonly PlayerGunConfig gun2Config;
+
+		public Vector2 Speed => movementController.Speed;
+		public float AngularSpeed => movementController.AngularSpeed;
+		public int LaserCharges => gun2ShootController.CurrentCharges;
+		public float LaserChargeTimeLeft => gun2ShootController.ChargeTimeLeft;
 
 		public PlayerShipController(IPlayerShipView view, PlayerShipConfig shipConfig) : base(view){
 			this.shipConfig = shipConfig;

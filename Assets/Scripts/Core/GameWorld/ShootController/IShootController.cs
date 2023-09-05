@@ -1,5 +1,4 @@
 using System;
-using Core.GameSycle;
 using Core.GameWorld.Entities.Projectile;
 
 namespace Core.GameWorld.ShootController {

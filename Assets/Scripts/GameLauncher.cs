@@ -10,7 +10,11 @@ public class GameLauncher : MonoBehaviour {
 	}
 
 	private void FixedUpdate(){
-		gameController.Update(Time.fixedDeltaTime);
+		gameController.UpdateGameplay(Time.fixedDeltaTime);
+	}
+	
+	private void Update(){
+		gameController.UpdateUI();
 	}
 
 	private void OnDestroy(){
