@@ -10,7 +10,7 @@ namespace Core.GameWorld.ShootController {
 		public event EventHandler<IProjectileController[]> OnShoot;
 
 		public bool IsSpawnActive{ get; set; } = false;
-		protected virtual bool IsReallySpawnActive => IsSpawnActive; //todo
+		protected virtual bool IsReallySpawnActive => IsSpawnActive;
 
 		private readonly IWorldObjectController owner;
 		private readonly IProjectileFactory projectileFactory;

@@ -36,7 +36,7 @@ namespace Core.GameWorld.Entities.PlayerShip {
 			gun1ShootController = new ShootController.ShootController(
 				this,
 				bulletFactory,
-				() => new BulletFactoryArgs(Position, Forward, movementController.Speed, movementController.AngularSpeed),
+				() => new BulletFactoryArgs(Position, Forward, this, movementController.Speed, movementController.AngularSpeed),
 				shipConfig.Gun1FireRate,
 				false
 			);
@@ -52,6 +52,10 @@ namespace Core.GameWorld.Entities.PlayerShip {
 				shipConfig.Gun2MaxCharges,
 				shipConfig.Gun2ChargeTime
 			);
+		}
+		
+		protected override void TriggerEnterHandler(IWorldObjectController other){
+			Dispose();
 		}
 
 		public void SetForwardSpeedThrottle(float value) =>
@@ -77,6 +81,13 @@ namespace Core.GameWorld.Entities.PlayerShip {
 			gun2ShootController.Update(dt);
 
 			base.Update(dt);
+		}
+
+		public override void Dispose(){
+			gun1ShootController.Dispose();
+			gun2ShootController.Dispose();
+				
+			base.Dispose();
 		}
 	}
 }

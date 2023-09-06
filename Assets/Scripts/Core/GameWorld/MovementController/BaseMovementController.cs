@@ -9,5 +9,7 @@ namespace Core.GameWorld.MovementController {
 		}
 
 		public abstract void Update(float dt);
+
+		public virtual void Dispose(){ }
 	}
 }

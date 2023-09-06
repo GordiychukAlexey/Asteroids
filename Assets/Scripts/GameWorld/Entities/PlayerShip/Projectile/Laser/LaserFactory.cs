@@ -1,9 +1,8 @@
 using Core.GameWorld.Entities.Projectile;
 using Core.GameWorld.Entities.Projectile.Laser;
-using GameWorld.Entities.PlayerShip.Projectile.Laser;
 using UnityEngine.Pool;
 
-namespace GameWorld.Entities.PlayerShip {
+namespace GameWorld.Entities.PlayerShip.Projectile.Laser {
 	public class LaserFactory : BaseProjectileFactory<LaserController, Laser, LaserFactoryArgs>, ILaserFactory {
 		private readonly LaserConfig config;
 

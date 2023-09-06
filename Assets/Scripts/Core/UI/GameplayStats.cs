@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UI {
+namespace Core.UI {
 	public struct GameplayStats {
 		public readonly Vector2 PlayerShipPosition;
 		public readonly float PlayerShipAngle;

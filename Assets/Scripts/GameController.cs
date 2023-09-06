@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Core;
 using Core.GameWorld;
 using Core.GameWorld.Entities.Asteroid;
 using Core.GameWorld.Entities.EnemyShip;
@@ -12,6 +13,7 @@ using Core.Input;
 using Core.Tools.Extensions;
 using Core.Tools.InfinityWorld;
 using Core.Tools.ServiceLocator;
+using Core.UI;
 using GameWorld;
 using GameWorld.Entities.Asteroid;
 using GameWorld.Entities.EnemyShip;
@@ -21,10 +23,12 @@ using GameWorld.Entities.PlayerShip.Projectile.Laser;
 using Input;
 using UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 using PlayerInput = Core.Input.PlayerInput;
 
 public class GameController : IDisposable {
+	public event Action OnRestart;
+	
 	private readonly Config config;
 
 	private readonly InputController inputController;
@@ -59,7 +63,7 @@ public class GameController : IDisposable {
 
 		bulletFactory = new BulletFactory(
 			new PlayerBulletPool(
-				config.PlayerGun1Bullet,
+				config.Bullet,
 				config.BulletsPoolParent,
 				PlayerBulletPool.PoolType.ObjectPool,
 				20,
@@ -82,20 +86,20 @@ public class GameController : IDisposable {
 		worldObjectsContainer.RegisterWorldObjectsFactory(bulletFactory);
 		worldObjectsContainer.RegisterWorldObjectsFactory(laserFactory);
 
-		PlayerShipFactory playerShipFactory = new PlayerShipFactory(config.PlayerShip);
-		playerShipController = playerShipFactory.Create(
-			new PlayerShipFactory.Args(
-				Vector2.zero, Vector2.up, config.PlayerShipConfig));
-//		playerShipController = new PlayerShipController(
-//			Object.Instantiate(config.PlayerShip), config.PlayerShipConfig){
-//			Position = Vector2.zero,
-//			Forward = Vector2.up
-//		};
+		playerShipController = new PlayerShipController(
+			Object.Instantiate(config.PlayerShip),
+			config.PlayerShipConfig){
+			Position = Vector2.zero,
+			Forward = Vector2.up
+		};
 
 		ServiceLocator.Bind(new PlayerShipProvider(playerShipController)).AsSingle();
 
 		playerShipInputController = new PlayerShipInputController(playerShipController);
-
+		
+		scorer = new Scorer();
+		ServiceLocator.Bind(scorer).AsSingle();
+		
 		var enemyShipFactory = new EnemyShipFactory(
 			new EnemyShipPool(
 				config.EnemyShip,
@@ -162,14 +166,21 @@ public class GameController : IDisposable {
 				200.0f * 2.0f),
 		};
 
-		scorer = new Scorer();
-
 		uiController = new UIController(config.UIView);
-		
-		uiController.onRestartPressed+=Restart;
+
+		uiController.onRestartPressed += Restart;
+
+		playerShipController.OnDispose += RunGameOver;
 	}
 
-	private void Restart() => SceneManager.LoadScene(0);
+	private void Restart(){
+		OnRestart?.Invoke();
+	}
+
+	private void RunGameOver(IWorldObjectController obj){
+		Time.timeScale = 0.0f;
+		uiController.ShowGameOver();
+	}
 
 	public void UpdateGameplay(float dt){
 		inputController.Update();
@@ -192,7 +203,7 @@ public class GameController : IDisposable {
 		uiController.SetStats(
 			new GameplayStats(
 				playerShipController.Position,
-				Vector2.Angle(Vector2.right, playerShipController.Forward),
+				playerShipController.Forward.PosNegAngle(),
 				playerShipController.Speed.magnitude,
 				playerShipController.LaserCharges,
 				playerShipController.LaserChargeTimeLeft,
@@ -204,8 +215,14 @@ public class GameController : IDisposable {
 		inputController.Dispose();
 
 		worldObjectsContainer.Dispose();
+
+		uiController.onRestartPressed -= Restart;
+
+		playerShipController.OnDispose -= RunGameOver;
 		
-		uiController.onRestartPressed-=Restart;
+		scorer.Dispose();
+
+		ServiceLocator.UnbindAll();
 	}
 
 	[Serializable]
@@ -217,8 +234,7 @@ public class GameController : IDisposable {
 		[SerializeField] private Asteroid bigAsteroid;
 		[SerializeField] private Asteroid smallAsteroid;
 		[SerializeField] private Transform asteroidsPoolParent;
-		[SerializeField] private Bullet playerGun1Bullet;
-		[SerializeField] private Bullet playerGun2Bullet;
+		[SerializeField] private Bullet bullet;
 		[SerializeField] private Laser laser;
 		[SerializeField] private Transform bulletsPoolParent;
 		[SerializeField] private PlayerShipConfig playerShipConfig;
@@ -235,8 +251,7 @@ public class GameController : IDisposable {
 		public Asteroid BigAsteroid => bigAsteroid;
 		public Asteroid SmallAsteroid => smallAsteroid;
 		public Transform AsteroidsPoolParent => asteroidsPoolParent;
-		public Bullet PlayerGun1Bullet => playerGun1Bullet;
-		public Bullet PlayerGun2Bullet => playerGun2Bullet;
+		public Bullet Bullet => bullet;
 		public Laser Laser => laser;
 		public Transform BulletsPoolParent => bulletsPoolParent;
 		public PlayerShipConfig PlayerShipConfig => playerShipConfig;

@@ -1,11 +1,10 @@
 using System;
 using Core.GameWorld.MovementController;
-using UnityEngine;
 
 namespace Core.GameWorld.Entities.EnemyShip {
 	public class EnemyShipController : BaseWorldObjectController<IEnemyShipView>, IEnemyShipController {
-		public event Action<EnemyShipController> OnDispose;
-
+		public event Action<IDestroyableWorldObjectController> OnDestroy;
+		
 		private readonly EnemyShipConfig shipConfig;
 
 		private readonly ChasingMovementController movementController;
@@ -18,11 +17,12 @@ namespace Core.GameWorld.Entities.EnemyShip {
 				new ChasingMovementController.Config(
 					shipConfig.Speed,
 					shipConfig.MaxRotateSpeed));
-
-			view.OnTriggerEnter += TriggerEnterHandler;
+				
 		}
-
-		private void TriggerEnterHandler(object sender, Collider2D e){
+		
+		protected override void TriggerEnterHandler(IWorldObjectController other){
+			OnDestroy?.Invoke(this);
+			
 			Dispose();
 		}
 
@@ -32,14 +32,6 @@ namespace Core.GameWorld.Entities.EnemyShip {
 			movementController.Update(dt);
 
 			base.Update(dt);
-		}
-
-		public override void Dispose(){
-			OnDispose?.Invoke(this);
-
-			view.OnTriggerEnter -= TriggerEnterHandler;
-
-			base.Dispose();
 		}
 	}
 }

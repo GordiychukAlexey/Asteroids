@@ -1,8 +1,7 @@
 using Core.Tools.Pool;
-using GameWorld.Entities.PlayerShip.Projectile.Bullet;
 using UnityEngine;
 
-namespace GameWorld.Entities.PlayerShip {
+namespace GameWorld.Entities.PlayerShip.Projectile.Bullet {
 	public class PlayerBulletPool : WorldObjectsPool<Bullet> {
 		public PlayerBulletPool(
 			Bullet prefab,

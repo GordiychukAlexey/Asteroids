@@ -1,8 +1,7 @@
 using Core.Tools.Pool;
-using GameWorld.Entities.PlayerShip.Projectile.Laser;
 using UnityEngine;
 
-namespace GameWorld.Entities.PlayerShip {
+namespace GameWorld.Entities.PlayerShip.Projectile.Laser {
 	public class LaserPool : WorldObjectsPool<Laser> {
 		public LaserPool(
 			Laser prefab,

@@ -3,12 +3,13 @@ using Core.Tools.InfinityWorld;
 using UnityEngine;
 
 namespace Core.GameWorld.Entities.Projectile.Bullet {
-	public class SimpleBulletController : BaseWorldObjectController<IBulletView>, IBulletController {
+	public class SimpleBulletController : BaseProjectileController<IBulletView>, IBulletController {
 		private readonly BulletConfig config;
 		private readonly PhysicMovementController movementController;
 		private readonly WorldObjectLifetimeController worldObjectLifetimeController;
 
-		public SimpleBulletController(IBulletView view, InfinityWorldSide worldSide, BulletConfig config) : base(view, worldSide){
+		public SimpleBulletController(IBulletView view, InfinityWorldSide worldSide, IWorldObjectController owner, BulletConfig config) 
+			: base(view, owner,worldSide){
 			this.config = config;
 
 			movementController = new PhysicMovementController(
@@ -18,11 +19,9 @@ namespace Core.GameWorld.Entities.Projectile.Bullet {
 			worldObjectLifetimeController = new WorldObjectLifetimeController(this, config.Lifetime);
 
 			movementController.SetForwardSpeed(config.Speed);
-
-			view.OnTriggerEnter += TriggerEnterHandler;
 		}
-
-		private void TriggerEnterHandler(object sender, Collider2D e){
+		
+		protected override void TriggerEnterHandler(IWorldObjectController other){
 			if (!config.IsImmortal){
 				Dispose();
 			}
@@ -40,7 +39,6 @@ namespace Core.GameWorld.Entities.Projectile.Bullet {
 		}
 
 		public override void Dispose(){
-			view.OnTriggerEnter -= TriggerEnterHandler;
 
 			base.Dispose();
 		}

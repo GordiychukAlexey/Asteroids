@@ -1,7 +1,6 @@
 using System;
-using Core.UI;
 
-namespace UI {
+namespace Core.UI {
 	public class UIController : IDisposable {
 		public event Action onRestartPressed;
 

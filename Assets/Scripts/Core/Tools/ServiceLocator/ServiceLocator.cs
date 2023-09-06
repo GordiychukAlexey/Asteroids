@@ -29,5 +29,9 @@ namespace Core.Tools.ServiceLocator {
 			var item = _registeredObjects.SingleOrDefault(x => x.objectInstance == obj);
 			_registeredObjects.Remove(item);
 		}
+		
+		public static void UnbindAll(){
+			_registeredObjects.Clear();
+		}
 	}
 }

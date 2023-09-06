@@ -1,7 +1,7 @@
 using Core.Tools.Extensions;
 using UnityEngine;
 
-namespace Core.Tools.InfinityWorld {
+namespace Core.GameWorld {
 	public class WorldBoundsProvider {
 		public Bounds Bounds{ get; }
 

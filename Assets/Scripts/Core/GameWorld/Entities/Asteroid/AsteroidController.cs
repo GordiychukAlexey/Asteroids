@@ -1,8 +1,12 @@
+using System;
 using Core.GameWorld.MovementController;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Core.GameWorld.Entities.Asteroid {
 	public class AsteroidController : BaseWorldObjectController<IAsteroidView>, IAsteroidController {
+		public event Action<IDestroyableWorldObjectController> OnDestroy;
+		
 		private readonly AsteroidConfig asteroidConfig;
 
 		private readonly PhysicMovementController movementController;
@@ -14,11 +18,11 @@ namespace Core.GameWorld.Entities.Asteroid {
 			movementController = new PhysicMovementController(
 				this,
 				new PhysicMovementController.Config(0.0f, 0.0f));
-
-			view.OnTriggerEnter += TriggerEnterHandler;
 		}
-
-		private void TriggerEnterHandler(object sender, Collider2D e){
+		
+		protected override void TriggerEnterHandler(IWorldObjectController other){
+			OnDestroy?.Invoke(this);
+			
 			Dispose();
 		}
 
@@ -35,10 +39,8 @@ namespace Core.GameWorld.Entities.Asteroid {
 		}
 
 		public override void Dispose(){
-			view.OnTriggerEnter -= TriggerEnterHandler;
-
 			if (asteroidConfig.AsteroidFactory != null){
-				for (int i = 0; i < 2; i++){ //todo
+				for (int i = 0; i < 2; i++){
 					asteroidConfig.AsteroidFactory.Create(
 						new AsteroidFactoryArgs(
 							Position,

@@ -1,3 +1,5 @@
+using System;
+
 namespace Core.GameWorld.MovementController {
-	public interface IMovementController : IUpdatable { }
+	public interface IMovementController : IUpdatable, IDisposable { }
 }

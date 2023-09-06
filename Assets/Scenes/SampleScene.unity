@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1705735327}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &604058467
@@ -421,7 +421,7 @@ Transform:
   m_GameObject: {fileID: 853077560}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.47017, y: 49.788822, z: -1.5573256}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -447,8 +447,7 @@ MonoBehaviour:
     bigAsteroid: {fileID: 7794464032917602035, guid: c55a03a7502aee04c85ed40022cc80be, type: 3}
     smallAsteroid: {fileID: 623759111662027027, guid: ede8795750e644d41996732ecb89c4d8, type: 3}
     asteroidsPoolParent: {fileID: 1016248104}
-    playerGun1Bullet: {fileID: 4224152805951054755, guid: 0c71030868cadf2499e7d0e5251cd0ec, type: 3}
-    playerGun2Bullet: {fileID: 0}
+    bullet: {fileID: 4224152805951054755, guid: 0c71030868cadf2499e7d0e5251cd0ec, type: 3}
     laser: {fileID: 9064097718326887779, guid: a5be711275b4a1544996dda8634e9e17, type: 3}
     bulletsPoolParent: {fileID: 1643261525}
     playerShipConfig:
@@ -583,6 +582,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1705735327 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1231280129527405367, guid: e8c1c359be4038d459adf34cc426c7b3, type: 3}
+  m_PrefabInstance: {fileID: 6046668665997421324}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1768777827
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ namespace UI {
 		
 		[SerializeField] private TMP_Text statsText;
 		[SerializeField] private Button restartButton;
+		[SerializeField] private Transform inGamePanel;
 		[SerializeField] private Transform restartPanel;
 		[SerializeField] private TMP_Text gameOverScoreText;
 
@@ -29,7 +30,10 @@ namespace UI {
 		}
 
 		public void ShowGameOverScreen(int score){
-			gameOverScoreText.text = score.ToString();
+			inGamePanel.gameObject.SetActive(false);
+			
+			gameOverScoreText.text = $"Score: {score}";
+			restartPanel.gameObject.SetActive(true);
 		}
 
 		private void OnDestroy(){

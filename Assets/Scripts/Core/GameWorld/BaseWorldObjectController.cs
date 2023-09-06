@@ -16,7 +16,14 @@ namespace Core.GameWorld {
 			WorldSide = worldSide;
 
 			infinityWorldPortal = new InfinityWorldPortal(this);
+
+			view.OnTriggerEnterView += TriggerEnterHandler;
+			view.OnTriggerEnter += TriggerEnterHandler;
 		}
+
+		private void TriggerEnterHandler(IWorldObjectView other) => other.InvokeTriggerEnter(this);
+
+		protected virtual void TriggerEnterHandler(IWorldObjectController other){ }
 
 		public Vector2 Position{
 			get => view.Position;
@@ -40,6 +47,9 @@ namespace Core.GameWorld {
 
 		public virtual void Dispose(){
 			OnDispose?.Invoke(this);
+
+			view.OnTriggerEnterView -= TriggerEnterHandler;
+			view.OnTriggerEnter -= TriggerEnterHandler;
 
 			view.Dispose();
 		}

@@ -316,6 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statsText: {fileID: 917174337859449453}
   restartButton: {fileID: 739118490354529081}
+  inGamePanel: {fileID: 5185546482345435827}
   restartPanel: {fileID: 8023357984185385487}
   gameOverScoreText: {fileID: 6800398041049082238}
 --- !u!1 &3828053326447950602

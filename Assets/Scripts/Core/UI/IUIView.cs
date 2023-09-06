@@ -1,5 +1,4 @@
 using System;
-using UI;
 
 namespace Core.UI {
 	public interface IUIView {

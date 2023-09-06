@@ -12,7 +12,7 @@ namespace GameWorld.Entities.PlayerShip.Projectile.Bullet {
 
 		protected override IProjectileController CreateController(Bullet viewInstance, IProjectileFactoryArgs args){
 			BulletFactoryArgs argsCasted = (BulletFactoryArgs) args;
-			var x = new SimpleBulletController(viewInstance, args.WorldSide, config);
+			var x = new SimpleBulletController(viewInstance, args.WorldSide, argsCasted.Owner, config);
 			x.AddSpeed(argsCasted.OwnerMovingSpeed);
 			return x;
 		}
