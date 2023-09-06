@@ -23,7 +23,7 @@ namespace Core.GameWorld.Entities.Asteroid {
 		protected override void TriggerEnterHandler(IWorldObjectController other){
 			OnDestroy?.Invoke(this);
 			
-			Dispose();
+			MarkToDispose();
 		}
 
 		public void SetForward(Vector2 value) => Forward = value;

@@ -11,6 +11,8 @@ namespace Core.GameWorld {
 
 		private readonly InfinityWorldPortal infinityWorldPortal;
 
+		private bool isMarkedToDispose = false;
+
 		protected BaseWorldObjectController(TView view, InfinityWorldSide worldSide = InfinityWorldSide.Center){
 			this.view = view;
 			WorldSide = worldSide;
@@ -41,7 +43,14 @@ namespace Core.GameWorld {
 
 		public bool IsWasInWorldBounds => infinityWorldPortal.IsWasInWorldBounds;
 
+		public void MarkToDispose() => isMarkedToDispose = true;
+
 		public virtual void Update(float dt){
+			if (isMarkedToDispose){
+				Dispose();
+				return;
+			}
+			
 			infinityWorldPortal.Update(dt);
 		}
 

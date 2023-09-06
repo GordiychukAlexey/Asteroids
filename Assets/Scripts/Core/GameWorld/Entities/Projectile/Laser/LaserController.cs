@@ -1,4 +1,3 @@
-using Core.GameWorld.Entities.Projectile.Bullet;
 using Core.Tools.InfinityWorld;
 
 namespace Core.GameWorld.Entities.Projectile.Laser {

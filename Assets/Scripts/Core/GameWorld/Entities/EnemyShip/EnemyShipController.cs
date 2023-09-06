@@ -17,13 +17,12 @@ namespace Core.GameWorld.Entities.EnemyShip {
 				new ChasingMovementController.Config(
 					shipConfig.Speed,
 					shipConfig.MaxRotateSpeed));
-				
 		}
 		
 		protected override void TriggerEnterHandler(IWorldObjectController other){
 			OnDestroy?.Invoke(this);
 			
-			Dispose();
+			MarkToDispose();
 		}
 
 		public void SetTarget(IWorldObjectController target) => movementController.SetTarget(target);

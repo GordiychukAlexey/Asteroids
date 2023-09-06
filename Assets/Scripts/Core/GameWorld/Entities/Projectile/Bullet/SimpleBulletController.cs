@@ -23,7 +23,7 @@ namespace Core.GameWorld.Entities.Projectile.Bullet {
 		
 		protected override void TriggerEnterHandler(IWorldObjectController other){
 			if (!config.IsImmortal){
-				Dispose();
+				MarkToDispose();
 			}
 		}
 

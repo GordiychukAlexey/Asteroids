@@ -55,7 +55,7 @@ namespace Core.GameWorld.Entities.PlayerShip {
 		}
 		
 		protected override void TriggerEnterHandler(IWorldObjectController other){
-			Dispose();
+			MarkToDispose();
 		}
 
 		public void SetForwardSpeedThrottle(float value) =>
