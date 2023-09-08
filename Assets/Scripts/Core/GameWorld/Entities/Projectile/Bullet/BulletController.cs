@@ -3,12 +3,12 @@ using Core.Tools.InfinityWorld;
 using UnityEngine;
 
 namespace Core.GameWorld.Entities.Projectile.Bullet {
-	public class SimpleBulletController : BaseProjectileController<IBulletView>, IBulletController {
+	public class BulletController : BaseProjectileController<IBulletView>, IBulletController {
 		private readonly BulletConfig config;
 		private readonly PhysicMovementController movementController;
 		private readonly WorldObjectLifetimeController worldObjectLifetimeController;
 
-		public SimpleBulletController(IBulletView view, InfinityWorldSide worldSide, IWorldObjectController owner, BulletConfig config) 
+		public BulletController(IBulletView view, InfinityWorldSide worldSide, IWorldObjectController owner, BulletConfig config) 
 			: base(view, owner,worldSide){
 			this.config = config;
 
@@ -32,10 +32,10 @@ namespace Core.GameWorld.Entities.Projectile.Bullet {
 		public void SetAngularSpeed(float speed) => movementController.SetAngularSpeed(speed);
 
 		public override void Update(float dt){
+			base.Update(dt);
+			
 			movementController.Update(dt);
 			worldObjectLifetimeController.Update(dt);
-
-			base.Update(dt);
 		}
 
 		public override void Dispose(){

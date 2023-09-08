@@ -17,6 +17,7 @@ namespace Core.GameWorld.Entities.Projectile.Laser {
 
 		public override void Update(float dt){
 			base.Update(dt);
+			
 			worldObjectLifetimeController.Update(dt);
 
 			view.Position = infinityWorld.ToSidePosition(Owner.Position, WorldSide);

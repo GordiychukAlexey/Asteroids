@@ -33,9 +33,9 @@ namespace Core.GameWorld.Entities.Asteroid {
 		public void SetAngularSpeed(float value) => movementController.SetAngularSpeed(value);
 
 		public override void Update(float dt){
-			movementController.Update(dt);
-
 			base.Update(dt);
+
+			movementController.Update(dt);
 		}
 
 		public override void Dispose(){

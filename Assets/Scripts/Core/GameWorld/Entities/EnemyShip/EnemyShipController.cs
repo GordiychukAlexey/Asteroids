@@ -28,9 +28,9 @@ namespace Core.GameWorld.Entities.EnemyShip {
 		public void SetTarget(IWorldObjectController target) => movementController.SetTarget(target);
 
 		public override void Update(float dt){
-			movementController.Update(dt);
-
 			base.Update(dt);
+			
+			movementController.Update(dt);
 		}
 	}
 }

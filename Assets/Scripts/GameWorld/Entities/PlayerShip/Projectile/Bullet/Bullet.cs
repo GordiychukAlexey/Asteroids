@@ -15,9 +15,9 @@ namespace GameWorld.Entities.PlayerShip.Projectile.Bullet {
 		}
 
 		public override void Dispose(){
-			base.Dispose();
-
 			pool.Release(this);
+			
+			base.Dispose();
 		}
 	}
 }

@@ -75,12 +75,12 @@ namespace Core.GameWorld.Entities.PlayerShip {
 		}
 
 		public override void Update(float dt){
+			base.Update(dt);
+			
 			movementController.Update(dt);
 
 			gun1ShootController.Update(dt);
 			gun2ShootController.Update(dt);
-
-			base.Update(dt);
 		}
 
 		public override void Dispose(){
