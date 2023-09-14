@@ -1,12 +1,11 @@
 using Core.GameWorld.Entities.Asteroid;
 using Core.GameWorld.SpawnLocation;
-using Core.Tools.InfinityWorld;
-using Core.Tools.ServiceLocator;
+using Core.GameWorld.WorldBoundsProvider;
 using UnityEngine;
 
 namespace Core.GameWorld.EntitiesSpawner {
 	public class AsteroidPeriodicalSpawner : EntitiesPeriodicalSpawner<IAsteroidController, IAsteroidFactoryArgs> {
-		private readonly WorldBoundsProvider worldBoundsProvider;
+		private readonly IWorldBoundsProvider worldBoundsProvider;
 		private readonly float maxMovingSpeed;
 		private readonly float maxAngularSpeed;
 
@@ -15,10 +14,11 @@ namespace Core.GameWorld.EntitiesSpawner {
 			IAsteroidFactory worldObjectFactory,
 			float spawnRate,
 			float maxMovingSpeed,
-			float maxAngularSpeed
+			float maxAngularSpeed,
+			IWorldBoundsProvider worldBoundsProvider
 		)
 			: base(spawnLocation, worldObjectFactory, spawnRate){
-			worldBoundsProvider = ServiceLocator.Resolve<WorldBoundsProvider>();
+			this.worldBoundsProvider = worldBoundsProvider;
 			this.maxMovingSpeed = maxMovingSpeed;
 			this.maxAngularSpeed = maxAngularSpeed;
 		}

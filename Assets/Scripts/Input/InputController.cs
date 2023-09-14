@@ -1,5 +1,4 @@
 using System;
-using Core.Tools.ServiceLocator;
 using UnityEngine;
 using PlayerInput = Core.Input.PlayerInput;
 
@@ -8,11 +7,11 @@ namespace Input {
 		private readonly InputActions inputActions;
 		private readonly PlayerInput playerInput;
 
-		public InputController(){
-			inputActions = ServiceLocator.Resolve<InputActions>();
+		public InputController(InputActions inputActions, PlayerInput playerInput){
+			this.inputActions = inputActions;
 			inputActions.Enable();
 
-			playerInput = ServiceLocator.Resolve<PlayerInput>();
+			this.playerInput = playerInput;
 		}
 
 		public void Update(){

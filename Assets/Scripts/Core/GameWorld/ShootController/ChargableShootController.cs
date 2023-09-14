@@ -1,5 +1,6 @@
 using System;
 using Core.GameWorld.Entities.Projectile;
+using Core.Tools.InfinityWorld;
 using UnityEngine;
 
 namespace Core.GameWorld.ShootController {
@@ -22,7 +23,9 @@ namespace Core.GameWorld.ShootController {
 			float fireRate,
 			bool isUseVirtualBullets,
 			int maxCharges,
-			float chargeTime) : base(owner, projectileFactory, getArgs, fireRate, isUseVirtualBullets){
+			float chargeTime,
+			IInfinityWorld infinityWorld) 
+			: base(owner, projectileFactory, getArgs, fireRate, isUseVirtualBullets, infinityWorld){
 			this.maxCharges = maxCharges;
 			CurrentCharges = maxCharges;
 

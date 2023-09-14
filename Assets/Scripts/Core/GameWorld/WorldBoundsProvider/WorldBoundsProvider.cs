@@ -1,8 +1,8 @@
 using Core.Tools.Extensions;
 using UnityEngine;
 
-namespace Core.GameWorld {
-	public class WorldBoundsProvider {
+namespace Core.GameWorld.WorldBoundsProvider {
+	public class WorldBoundsProvider: IWorldBoundsProvider{
 		public Bounds Bounds{ get; }
 
 		public WorldBoundsProvider(Camera mainCamera){

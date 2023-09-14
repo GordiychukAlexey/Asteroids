@@ -1,4 +1,5 @@
 using Core.GameWorld.MovementController;
+using Core.GameWorld.WorldBoundsProvider;
 using Core.Tools.InfinityWorld;
 using UnityEngine;
 
@@ -8,8 +9,14 @@ namespace Core.GameWorld.Entities.Projectile.Bullet {
 		private readonly PhysicMovementController movementController;
 		private readonly WorldObjectLifetimeController worldObjectLifetimeController;
 
-		public BulletController(IBulletView view, InfinityWorldSide worldSide, IWorldObjectController owner, BulletConfig config) 
-			: base(view, owner,worldSide){
+		public BulletController(
+			IBulletView view, 
+			InfinityWorldSide worldSide,
+			IWorldObjectController owner,
+			BulletConfig config,
+			IWorldBoundsProvider worldBoundsProvider,
+			IInfinityWorld infinityWorld) 
+			: base(view, owner,worldBoundsProvider,infinityWorld,worldSide){
 			this.config = config;
 
 			movementController = new PhysicMovementController(

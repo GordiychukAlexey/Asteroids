@@ -1,5 +1,7 @@
 using System;
 using Core.GameWorld.MovementController;
+using Core.GameWorld.WorldBoundsProvider;
+using Core.Tools.InfinityWorld;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,8 +13,12 @@ namespace Core.GameWorld.Entities.Asteroid {
 
 		private readonly PhysicMovementController movementController;
 
-		public AsteroidController(IAsteroidView view, AsteroidConfig asteroidConfig
-		) : base(view){
+		public AsteroidController(
+			IAsteroidView view, 
+			AsteroidConfig asteroidConfig,
+			IWorldBoundsProvider worldBoundsProvider,
+			IInfinityWorld infinityWorld
+		) : base(view, worldBoundsProvider, infinityWorld){
 			this.asteroidConfig = asteroidConfig;
 
 			movementController = new PhysicMovementController(

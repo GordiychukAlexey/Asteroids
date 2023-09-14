@@ -1,15 +1,15 @@
 using Core.Tools.InfinityWorld;
-using Core.Tools.ServiceLocator;
 using UnityEngine;
 
 namespace Core.GameWorld.MovementController {
 	public class ChasingMovementController : BaseMovementController<ChasingMovementController.Config> {
 		private IWorldObjectController target;
 
-		private readonly InfinityWorld infinityWorld;
+		private readonly IInfinityWorld infinityWorld;
 
-		public ChasingMovementController(IWorldObjectController self, Config config) : base(self, config){
-			infinityWorld = ServiceLocator.Resolve<InfinityWorld>();
+		public ChasingMovementController(IWorldObjectController self, Config config,
+			IInfinityWorld infinityWorld) : base(self, config){
+			this.infinityWorld = infinityWorld;
 		}
 
 		public void SetTarget(IWorldObjectController target){

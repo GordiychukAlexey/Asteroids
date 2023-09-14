@@ -1,5 +1,7 @@
 using System;
 using Core.GameWorld.MovementController;
+using Core.GameWorld.WorldBoundsProvider;
+using Core.Tools.InfinityWorld;
 
 namespace Core.GameWorld.Entities.EnemyShip {
 	public class EnemyShipController : BaseWorldObjectController<IEnemyShipView>, IEnemyShipController {
@@ -9,14 +11,19 @@ namespace Core.GameWorld.Entities.EnemyShip {
 
 		private readonly ChasingMovementController movementController;
 
-		public EnemyShipController(IEnemyShipView view, EnemyShipConfig shipConfig) : base(view){
+		public EnemyShipController(
+			IEnemyShipView view, 
+			EnemyShipConfig shipConfig,
+			IWorldBoundsProvider worldBoundsProvider,
+			IInfinityWorld infinityWorld) : base(view, worldBoundsProvider, infinityWorld){
 			this.shipConfig = shipConfig;
 
 			movementController = new ChasingMovementController(
 				this,
 				new ChasingMovementController.Config(
 					shipConfig.Speed,
-					shipConfig.MaxRotateSpeed));
+					shipConfig.MaxRotateSpeed),
+				infinityWorld);
 		}
 		
 		protected override void TriggerEnterHandler(IWorldObjectController other){

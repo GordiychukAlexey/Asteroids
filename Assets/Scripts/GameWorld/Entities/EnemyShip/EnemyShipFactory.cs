@@ -1,7 +1,8 @@
 using Core;
 using Core.GameWorld;
 using Core.GameWorld.Entities.EnemyShip;
-using Core.Tools.ServiceLocator;
+using Core.GameWorld.WorldBoundsProvider;
+using Core.Tools.InfinityWorld;
 using Core.Tools.WorldObjectFactory;
 using UnityEngine.Pool;
 
@@ -10,15 +11,26 @@ namespace GameWorld.Entities.EnemyShip {
 		private readonly EnemyShipConfig config;
 		private readonly PlayerShipProvider playerShipProvider;
 		private readonly Scorer scorer;
+		private readonly IWorldBoundsProvider worldBoundsProvider;
+		private readonly IInfinityWorld infinityWorld;
 
-		public EnemyShipFactory(IObjectPool<EnemyShip> viewPool, EnemyShipConfig config) : base(viewPool){
+		public EnemyShipFactory(
+			IObjectPool<EnemyShip> viewPool, 
+			EnemyShipConfig config,
+			PlayerShipProvider playerShipProvider,
+			Scorer scorer,
+			IWorldBoundsProvider worldBoundsProvider,
+			IInfinityWorld infinityWorld) 
+			: base(viewPool){
 			this.config = config;
-			playerShipProvider = ServiceLocator.Resolve<PlayerShipProvider>();
-			scorer = ServiceLocator.Resolve<Scorer>();
+			this.playerShipProvider = playerShipProvider;
+			this.scorer = scorer;
+			this.worldBoundsProvider = worldBoundsProvider;
+			this.infinityWorld = infinityWorld;
 		}
 
 		protected override IEnemyShipController CreateController(EnemyShip viewInstance, IEnemyShipFactoryArgs args){
-			IEnemyShipController controller = new EnemyShipController(viewInstance, config);
+			IEnemyShipController controller = new EnemyShipController(viewInstance, config, worldBoundsProvider, infinityWorld);
 
 			controller.SetTarget(playerShipProvider.Provide());
 

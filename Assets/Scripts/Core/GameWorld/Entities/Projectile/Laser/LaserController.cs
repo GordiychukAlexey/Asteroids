@@ -1,18 +1,26 @@
+using Core.GameWorld.WorldBoundsProvider;
 using Core.Tools.InfinityWorld;
 
 namespace Core.GameWorld.Entities.Projectile.Laser {
 	public class LaserController : BaseProjectileController<ILaserView>, ILaserController {
 		private readonly LaserConfig config;
 		private readonly WorldObjectLifetimeController worldObjectLifetimeController;
-		private readonly InfinityWorld infinityWorld;
+		private readonly IInfinityWorld infinityWorld;
 
-		public LaserController(ILaserView view, InfinityWorldSide worldSide, LaserConfig config, IWorldObjectController owner)
-			: base(view,owner, worldSide){
+		public LaserController(
+			ILaserView view, 
+			InfinityWorldSide worldSide, 
+			LaserConfig config,
+			IWorldObjectController owner,
+			IWorldBoundsProvider worldBoundsProvider,
+			IInfinityWorld infinityWorld)
+			: base(view,owner, worldBoundsProvider, infinityWorld, worldSide){
 			this.config = config;
 			worldObjectLifetimeController = new WorldObjectLifetimeController(this, config.Lifetime);
-			infinityWorld = Tools.ServiceLocator.ServiceLocator.Resolve<InfinityWorld>();
 
 			owner.OnDispose += OwnerDisposeHandler;
+
+			this.infinityWorld = infinityWorld;
 		}
 
 		public override void Update(float dt){

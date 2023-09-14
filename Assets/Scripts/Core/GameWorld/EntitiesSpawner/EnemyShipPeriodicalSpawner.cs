@@ -1,6 +1,5 @@
 using Core.GameWorld.Entities.EnemyShip;
 using Core.GameWorld.SpawnLocation;
-using Core.Tools.ServiceLocator;
 using UnityEngine;
 
 namespace Core.GameWorld.EntitiesSpawner {
@@ -10,9 +9,10 @@ namespace Core.GameWorld.EntitiesSpawner {
 		public EnemyShipPeriodicalSpawner(
 			ISpawnLocation spawnLocation,
 			IEnemyShipFactory worldObjectFactory,
-			float spawnRate)
+			float spawnRate,
+			PlayerShipProvider playerShipProvider)
 			: base(spawnLocation, worldObjectFactory, spawnRate){
-			playerShipProvider = ServiceLocator.Resolve<PlayerShipProvider>();
+			this.playerShipProvider = playerShipProvider;
 		}
 
 		protected override IEnemyShipFactoryArgs GetArgs(Vector2 spawnPosition){

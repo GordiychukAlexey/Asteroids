@@ -2,7 +2,8 @@ using Core.GameWorld.Entities.Projectile.Bullet;
 using Core.GameWorld.Entities.Projectile.Laser;
 using Core.GameWorld.MovementController;
 using Core.GameWorld.ShootController;
-using Core.Tools.ServiceLocator;
+using Core.GameWorld.WorldBoundsProvider;
+using Core.Tools.InfinityWorld;
 using UnityEngine;
 
 namespace Core.GameWorld.Entities.PlayerShip {
@@ -22,7 +23,13 @@ namespace Core.GameWorld.Entities.PlayerShip {
 		public int LaserCharges => gun2ShootController.CurrentCharges;
 		public float LaserChargeTimeLeft => gun2ShootController.ChargeTimeLeft;
 
-		public PlayerShipController(IPlayerShipView view, PlayerShipConfig shipConfig) : base(view){
+		public PlayerShipController(
+			IPlayerShipView view,
+			PlayerShipConfig shipConfig,
+			IBulletFactory bulletFactory,
+			ILaserFactory laserFactory,
+			IWorldBoundsProvider worldBoundsProvider,
+			IInfinityWorld infinityWorld) : base(view, worldBoundsProvider, infinityWorld){
 			this.shipConfig = shipConfig;
 
 			movementController = new PhysicMovementController(
@@ -31,17 +38,14 @@ namespace Core.GameWorld.Entities.PlayerShip {
 					shipConfig.MovementDumping,
 					shipConfig.RotationDumping));
 
-			var bulletFactory = ServiceLocator.Resolve<IBulletFactory>();
-
 			gun1ShootController = new ShootController.ShootController(
 				this,
 				bulletFactory,
 				() => new BulletFactoryArgs(Position, Forward, this, movementController.Speed, movementController.AngularSpeed),
 				shipConfig.Gun1FireRate,
-				false
+				false,
+				infinityWorld
 			);
-
-			var laserFactory = ServiceLocator.Resolve<ILaserFactory>();
 
 			gun2ShootController = new ChargableShootController(
 				this,
@@ -50,7 +54,8 @@ namespace Core.GameWorld.Entities.PlayerShip {
 				shipConfig.Gun2FireRate,
 				true,
 				shipConfig.Gun2MaxCharges,
-				shipConfig.Gun2ChargeTime
+				shipConfig.Gun2ChargeTime,
+				infinityWorld
 			);
 		}
 		

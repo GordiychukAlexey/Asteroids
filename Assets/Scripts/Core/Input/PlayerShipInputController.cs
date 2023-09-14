@@ -1,5 +1,4 @@
 using Core.GameWorld.Entities.PlayerShip;
-using Core.Tools.ServiceLocator;
 
 namespace Core.Input {
 	public class PlayerShipInputController {
@@ -7,10 +6,12 @@ namespace Core.Input {
 
 		private readonly PlayerInput playerInput;
 
-		public PlayerShipInputController(IPlayerShipController playerShipController){
+		public PlayerShipInputController(
+			IPlayerShipController playerShipController,
+			PlayerInput playerInput){
 			this.playerShipController = playerShipController;
 
-			playerInput = ServiceLocator.Resolve<PlayerInput>();
+			this.playerInput = playerInput;
 		}
 
 		public void Update(float dt){

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Core.GameWorld.Entities.Projectile;
 using Core.Tools.InfinityWorld;
-using Core.Tools.ServiceLocator;
 using UnityEngine;
 
 namespace Core.GameWorld.ShootController {
@@ -17,7 +16,7 @@ namespace Core.GameWorld.ShootController {
 		private readonly Func<IProjectileFactoryArgs> getArgs;
 		private readonly float shootDelay;
 		private readonly bool isUseVirtualBullets;
-		private readonly InfinityWorld infinityWorld;
+		private readonly IInfinityWorld infinityWorld;
 
 		private float nextShootTime = -1;
 
@@ -25,14 +24,15 @@ namespace Core.GameWorld.ShootController {
 							   IProjectileFactory projectileFactory,
 							   Func<IProjectileFactoryArgs> getArgs,
 							   float fireRate,
-							   bool isUseVirtualBullets){
+							   bool isUseVirtualBullets,
+							   IInfinityWorld infinityWorld){
 			this.owner = owner;
 			this.projectileFactory = projectileFactory;
 			this.getArgs = getArgs;
 			shootDelay = 1.0f / fireRate;
 			this.isUseVirtualBullets = isUseVirtualBullets;
 
-			infinityWorld = ServiceLocator.Resolve<InfinityWorld>();
+			this.infinityWorld = infinityWorld;
 		}
 
 		public virtual void Update(float dt){

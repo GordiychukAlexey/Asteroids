@@ -1,13 +1,12 @@
-using Core.Tools.InfinityWorld;
-using Core.Tools.ServiceLocator;
+using Core.GameWorld.WorldBoundsProvider;
 using UnityEngine;
 
 namespace Core.GameWorld.SpawnLocation {
 	public class WorldBoundsSpawnLocation : ISpawnLocation {
 		private readonly Vector2[] spawnBoundsVertexes;
 
-		public WorldBoundsSpawnLocation(float sideExpand){
-			Bounds worldBounds = ServiceLocator.Resolve<WorldBoundsProvider>().Bounds;
+		public WorldBoundsSpawnLocation(float sideExpand, IWorldBoundsProvider worldBoundsProvider){
+			Bounds worldBounds = worldBoundsProvider.Bounds;
 
 			var spawnBounds = new Bounds(worldBounds.center, worldBounds.size + Vector3.one * 2 * sideExpand);
 

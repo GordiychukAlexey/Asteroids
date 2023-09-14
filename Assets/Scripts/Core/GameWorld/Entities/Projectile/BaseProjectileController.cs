@@ -1,3 +1,4 @@
+using Core.GameWorld.WorldBoundsProvider;
 using Core.Tools.InfinityWorld;
 
 namespace Core.GameWorld.Entities.Projectile {
@@ -5,8 +6,13 @@ namespace Core.GameWorld.Entities.Projectile {
 		where TView: class, IProjectileView{
 		public IWorldObjectController Owner{ get; }
 		
-		public BaseProjectileController(TView view, IWorldObjectController owner, InfinityWorldSide worldSide = InfinityWorldSide.Center) :
-			base(view, worldSide){
+		public BaseProjectileController(
+			TView view, 
+			IWorldObjectController owner, 
+			IWorldBoundsProvider worldBoundsProvider,
+			IInfinityWorld infinityWorld,
+			InfinityWorldSide worldSide = InfinityWorldSide.Center) :
+			base(view, worldBoundsProvider, infinityWorld, worldSide){
 			Owner = owner;
 		}
 	}

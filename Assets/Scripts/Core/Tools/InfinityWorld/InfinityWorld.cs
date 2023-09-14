@@ -4,7 +4,7 @@ using Core.GameWorld;
 using UnityEngine;
 
 namespace Core.Tools.InfinityWorld {
-	public class InfinityWorld {
+	public class InfinityWorld : IInfinityWorld{
 		private readonly Dictionary<InfinityWorldSide, Vector2> positionShift;
 		private readonly Dictionary<InfinityWorldSide, Bounds> bounds;
 

@@ -1,4 +1,5 @@
 using System;
+using Core.GameWorld.WorldBoundsProvider;
 using Core.Tools.InfinityWorld;
 using UnityEngine;
 
@@ -13,11 +14,15 @@ namespace Core.GameWorld {
 
 		private bool isMarkedToDispose = false;
 
-		protected BaseWorldObjectController(TView view, InfinityWorldSide worldSide = InfinityWorldSide.Center){
+		protected BaseWorldObjectController(
+			TView view, 
+			IWorldBoundsProvider worldBoundsProvider,
+			IInfinityWorld infinityWorld,
+			InfinityWorldSide worldSide = InfinityWorldSide.Center){
 			this.view = view;
 			WorldSide = worldSide;
 
-			infinityWorldPortal = new InfinityWorldPortal(this);
+			infinityWorldPortal = new InfinityWorldPortal(this, worldBoundsProvider, infinityWorld);
 
 			view.OnTriggerEnterView += TriggerEnterHandler;
 			view.OnTriggerEnter += TriggerEnterHandler;

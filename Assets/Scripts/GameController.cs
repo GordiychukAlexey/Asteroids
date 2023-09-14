@@ -9,10 +9,10 @@ using Core.GameWorld.Entities.Projectile.Bullet;
 using Core.GameWorld.Entities.Projectile.Laser;
 using Core.GameWorld.EntitiesSpawner;
 using Core.GameWorld.SpawnLocation;
+using Core.GameWorld.WorldBoundsProvider;
 using Core.Input;
 using Core.Tools.Extensions;
 using Core.Tools.InfinityWorld;
-using Core.Tools.ServiceLocator;
 using Core.UI;
 using GameWorld;
 using GameWorld.Entities.Asteroid;
@@ -50,16 +50,16 @@ public class GameController : IDisposable {
 	public GameController(Config config){
 		this.config = config;
 
-		ServiceLocator.Bind(new InputActions()).AsSingle();
-		ServiceLocator.Bind(new PlayerInput()).AsSingle();
-		ServiceLocator.Bind(new WorldBoundsProvider(Camera.main)).AsSingle();
+		InputActions inputActions = new InputActions();
+		PlayerInput playerInput = new PlayerInput();
+		WorldBoundsProvider worldBoundsProvider = new WorldBoundsProvider(Camera.main);
 
 		var cameraOrthographicBounds = Camera.main.OrthographicBounds();
 		Bounds worldBounds = new Bounds((Vector2) cameraOrthographicBounds.center,
 										(Vector2) cameraOrthographicBounds.size);
-		ServiceLocator.Bind(new InfinityWorld(worldBounds)).AsSingle();
+		InfinityWorld infinityWorld = new InfinityWorld(worldBounds);
 
-		inputController = new InputController();
+		inputController = new InputController(inputActions,playerInput);
 
 		bulletFactory = new BulletFactory(
 			new PlayerBulletPool(
@@ -68,9 +68,9 @@ public class GameController : IDisposable {
 				PlayerBulletPool.PoolType.ObjectPool,
 				20,
 				true),
-			config.BulletConfig);
-
-		ServiceLocator.Bind<IBulletFactory>(bulletFactory).AsSingle();
+			config.BulletConfig,
+			worldBoundsProvider,
+			infinityWorld);
 
 		laserFactory = new LaserFactory(
 			new LaserPool(
@@ -79,26 +79,29 @@ public class GameController : IDisposable {
 				LaserPool.PoolType.ObjectPool,
 				10,
 				true),
-			config.LaserConfig);
-
-		ServiceLocator.Bind<ILaserFactory>(laserFactory).AsSingle();
+			config.LaserConfig,
+			worldBoundsProvider,
+			infinityWorld);
 
 		worldObjectsContainer.RegisterWorldObjectsFactory(bulletFactory);
 		worldObjectsContainer.RegisterWorldObjectsFactory(laserFactory);
 
 		playerShipController = new PlayerShipController(
 			Object.Instantiate(config.PlayerShip),
-			config.PlayerShipConfig){
+			config.PlayerShipConfig,
+			bulletFactory,
+			laserFactory,
+			worldBoundsProvider,
+			infinityWorld){
 			Position = Vector2.zero,
 			Forward = Vector2.up
 		};
 
-		ServiceLocator.Bind(new PlayerShipProvider(playerShipController)).AsSingle();
+		PlayerShipProvider playerShipProvider = new PlayerShipProvider(playerShipController);
 
-		playerShipInputController = new PlayerShipInputController(playerShipController);
+		playerShipInputController = new PlayerShipInputController(playerShipController, playerInput);
 		
 		scorer = new Scorer();
-		ServiceLocator.Bind(scorer).AsSingle();
 		
 		var enemyShipFactory = new EnemyShipFactory(
 			new EnemyShipPool(
@@ -107,9 +110,11 @@ public class GameController : IDisposable {
 				EnemyShipPool.PoolType.ObjectPool,
 				10,
 				true),
-			config.EnemyShipConfig);
-
-		ServiceLocator.Bind(enemyShipFactory).AsSingle();
+			config.EnemyShipConfig,
+			playerShipProvider,
+			scorer,
+			worldBoundsProvider,
+			infinityWorld);
 
 		worldObjectsContainer.RegisterWorldObjectsFactory(enemyShipFactory);
 
@@ -120,11 +125,10 @@ public class GameController : IDisposable {
 				AsteroidPool.PoolType.ObjectPool,
 				30,
 				true),
-			config.SmallAsteroidConfig);
-
-		ServiceLocator.Bind<IAsteroidFactory>(smallAsteroidFactory)
-					  .WithTag("SmallAsteroidsFactory")
-					  .AsSingle();
+			config.SmallAsteroidConfig,
+			scorer,
+			worldBoundsProvider,
+			infinityWorld);
 
 		worldObjectsContainer.RegisterWorldObjectsFactory(smallAsteroidFactory);
 
@@ -136,34 +140,36 @@ public class GameController : IDisposable {
 				AsteroidPool.PoolType.ObjectPool,
 				10,
 				true),
-			config.BigAsteroidConfig);
-
-		ServiceLocator.Bind<IAsteroidFactory>(bigAsteroidFactory)
-					  .WithTag("BigAsteroidsFactory")
-					  .AsSingle();
+			config.BigAsteroidConfig,
+			scorer,
+			worldBoundsProvider,
+			infinityWorld);
 
 		worldObjectsContainer.RegisterWorldObjectsFactory(bigAsteroidFactory);
 
-		WorldBoundsSpawnLocation worldBoundsSpawnLocation = new WorldBoundsSpawnLocation(2.0f);
+		WorldBoundsSpawnLocation worldBoundsSpawnLocation = new WorldBoundsSpawnLocation(2.0f, worldBoundsProvider);
 
 		spawners = new IEntitiesSpawner[]{
 			new EnemyShipPeriodicalSpawner(
 				worldBoundsSpawnLocation,
 				enemyShipFactory,
-				0.5f
+				0.5f,
+				playerShipProvider
 			),
 			new AsteroidPeriodicalSpawner(
 				worldBoundsSpawnLocation,
 				bigAsteroidFactory,
 				0.5f,
 				config.BigAsteroidConfig.MovementMaxSpeed,
-				200.0f),
+				200.0f,
+				worldBoundsProvider),
 			new AsteroidPeriodicalSpawner(
 				worldBoundsSpawnLocation,
 				smallAsteroidFactory,
 				0.25f,
 				config.BigAsteroidConfig.MovementMaxSpeed * 2.0f,
-				200.0f * 2.0f),
+				200.0f * 2.0f,
+				worldBoundsProvider),
 		};
 
 		uiController = new UIController(config.UIView);
@@ -221,8 +227,6 @@ public class GameController : IDisposable {
 		playerShipController.OnDispose -= RunGameOver;
 		
 		scorer.Dispose();
-
-		ServiceLocator.UnbindAll();
 	}
 
 	[Serializable]
